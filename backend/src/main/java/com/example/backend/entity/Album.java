@@ -21,6 +21,7 @@ public class Album {
     String artist;
     String imageUrl;
     int releaseYear;
+
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
     List<Song> songs;
 }

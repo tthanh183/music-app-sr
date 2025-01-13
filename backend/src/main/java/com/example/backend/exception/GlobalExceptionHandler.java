@@ -39,4 +39,5 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(errorCode.getHttpStatusCode()).body(apiResponse);
     }
+
 }

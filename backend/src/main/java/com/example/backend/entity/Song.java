@@ -23,4 +23,5 @@ public class Song {
 
     @ManyToOne(fetch = FetchType.LAZY)
     Album album;
+
 }
