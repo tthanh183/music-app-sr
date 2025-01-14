@@ -62,4 +62,5 @@ public class AuthenticationController {
                 .result("Signup successful")
                 .build();
     }
+
 }
