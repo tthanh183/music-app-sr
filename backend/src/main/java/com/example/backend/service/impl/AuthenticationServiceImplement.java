@@ -39,7 +39,7 @@ import java.util.UUID;
 public class AuthenticationServiceImplement implements IAuthenticationService {
     UserRepository userRepository;
     RedisTemplate<String, Object> redisTemplate;
-    PasswordEncoder passwordEncoder;
+
     @NonFinal
     @Value("${jwt.secret-key}")
     String secretKey;
@@ -68,6 +68,8 @@ public class AuthenticationServiceImplement implements IAuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
         var user = userRepository
                 .findByEmail(authenticationRequest.getEmail())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));

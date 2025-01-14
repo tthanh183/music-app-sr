@@ -3,6 +3,7 @@ package com.example.backend.configuration;
 import com.example.backend.dto.request.IntrospectRequest;
 import com.example.backend.service.IAuthenticationService;
 import com.nimbusds.jose.JOSEException;
+import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
