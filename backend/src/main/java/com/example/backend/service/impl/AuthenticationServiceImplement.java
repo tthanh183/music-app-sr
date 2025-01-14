@@ -1,13 +1,14 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.dto.request.AuthenticationRequest;
-import com.example.backend.dto.request.IntrospectRequest;
-import com.example.backend.dto.request.RefreshRequest;
+import com.example.backend.constant.RoleEnum;
+import com.example.backend.dto.request.*;
 import com.example.backend.dto.response.AuthenticationResponse;
 import com.example.backend.dto.response.IntrospectResponse;
+import com.example.backend.entity.Role;
 import com.example.backend.entity.User;
 import com.example.backend.exception.AppException;
 import com.example.backend.exception.ErrorCode;
+import com.example.backend.repository.RoleRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.IAuthenticationService;
 import com.nimbusds.jose.*;
@@ -38,6 +39,7 @@ import java.util.UUID;
 @Slf4j
 public class AuthenticationServiceImplement implements IAuthenticationService {
     UserRepository userRepository;
+    RoleRepository roleRepository;
     RedisTemplate<String, Object> redisTemplate;
 
     @NonFinal
@@ -113,6 +115,38 @@ public class AuthenticationServiceImplement implements IAuthenticationService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    @Override
+    public void logout(LogoutRequest logoutRequest) throws JOSEException, ParseException {
+        String refreshToken = logoutRequest.getToken();
+        SignedJWT signedJWT = verifyToken(refreshToken);
+        String userEmail = signedJWT.getJWTClaimsSet().getSubject();
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        String redisKey = user.getEmail();
+        redisTemplate.delete(redisKey);
+    }
+
+    @Override
+    public void signup(SignupRequest signupRequest) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        var user = userRepository.findByEmail(signupRequest.getEmail());
+        if(user.isPresent()) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+
+        Role userRole = roleRepository.findByName(RoleEnum.USER.name());
+
+        User newUser = User.builder()
+                .email(signupRequest.getEmail())
+                .name(signupRequest.getName())
+                .password(passwordEncoder.encode(signupRequest.getPassword()))
+                .role(userRole)
+                .build();
+
+        userRepository.save(newUser);
     }
 
     private String generateAccessToken(User user) {

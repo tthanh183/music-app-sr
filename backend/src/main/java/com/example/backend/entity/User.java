@@ -18,6 +18,6 @@ public class User {
     String email;
     String password;
     String imageUrl;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     Role role;
 }
