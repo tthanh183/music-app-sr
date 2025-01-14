@@ -208,12 +208,11 @@ public class AuthenticationServiceImplement implements IAuthenticationService {
         JWSVerifier jwsVerifier = new MACVerifier(secretKey.getBytes());
         SignedJWT signedJWT = SignedJWT.parse(token);
 
-        boolean isExpired = signedJWT.getJWTClaimsSet().getExpirationTime().before(new Date());
-        boolean isValid = signedJWT.verify(jwsVerifier);
-
-        if(isExpired || !isValid) {
+        Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+        if (expirationTime.before(new Date()) || !signedJWT.verify(jwsVerifier)) {
             throw new AppException(ErrorCode.UNAUTHORIZED);
         }
+
         return signedJWT;
     }
 }
