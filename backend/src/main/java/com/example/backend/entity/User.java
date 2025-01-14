@@ -19,5 +19,6 @@ public class User {
     String password;
     String imageUrl;
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
     Role role;
 }
