@@ -74,11 +74,11 @@ public class AuthenticationServiceImplement implements IAuthenticationService {
 
         var user = userRepository
                 .findByEmail(authenticationRequest.getEmail())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.INVALID_EMAIL));
 
         boolean isAuthenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
         if(!isAuthenticated) {
-            throw new AppException(ErrorCode.UNAUTHENTICATED);
+            throw new AppException(ErrorCode.INVALID_PASSWORD);
         }
 
         String accessToken = generateAccessToken(user);
