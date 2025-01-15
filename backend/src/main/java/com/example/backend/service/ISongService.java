@@ -5,5 +5,4 @@ import com.example.backend.dto.response.SongResponse;
 
 public interface ISongService {
     SongResponse createSong(SongCreationRequest songCreationRequest);
-
 }
