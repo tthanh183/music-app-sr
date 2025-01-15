@@ -89,7 +89,7 @@ public class AuthenticationServiceImplement implements IAuthenticationService {
 
         return AuthenticationResponse.builder().isAuthenticated(true)
                 .accessToken(accessToken).refreshToken(refreshToken)
-                .name(user.getName()).email(user.getEmail()).role(user.getRole().getName())
+                .id(user.getId()).name(user.getName()).email(user.getEmail()).role(user.getRole().getName())
                 .build();
     }
 
@@ -112,13 +112,9 @@ public class AuthenticationServiceImplement implements IAuthenticationService {
 
         String accessToken = generateAccessToken(user);
 
-        return AuthenticationResponse.builder()
-                .isAuthenticated(true)
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .name(user.getName())
-                .email(user.getEmail())
-                .role(user.getRole().getName())
+        return AuthenticationResponse.builder().isAuthenticated(true)
+                .accessToken(accessToken).refreshToken(refreshToken)
+                .id(user.getId()).name(user.getName()).email(user.getEmail()).role(user.getRole().getName())
                 .build();
     }
 

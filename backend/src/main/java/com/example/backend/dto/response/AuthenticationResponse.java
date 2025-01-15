@@ -12,6 +12,7 @@ public class AuthenticationResponse {
     boolean isAuthenticated;
     String accessToken;
     String refreshToken;
+    String id;
     String name;
     String email;
     String role;
