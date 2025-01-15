@@ -14,6 +14,7 @@ public enum ErrorCode {
     INVALID_EMAIL(1005, "Invalid email", HttpStatus.BAD_REQUEST),
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "Unauthorized", HttpStatus.FORBIDDEN),
+    INVALID_SONG_CREATION(1008, "Invalid song creation", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
