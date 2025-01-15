@@ -119,7 +119,7 @@ public class AuthenticationServiceImplement implements IAuthenticationService {
 
     @Override
     public void logout(LogoutRequest logoutRequest) throws JOSEException, ParseException {
-        String refreshToken = logoutRequest.getToken();
+        String refreshToken = logoutRequest.getRefreshToken();
         SignedJWT signedJWT = verifyToken(refreshToken);
         String userEmail = signedJWT.getJWTClaimsSet().getSubject();
         User user = userRepository.findByEmail(userEmail)
