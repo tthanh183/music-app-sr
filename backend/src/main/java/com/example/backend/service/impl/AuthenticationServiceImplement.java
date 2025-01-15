@@ -88,7 +88,9 @@ public class AuthenticationServiceImplement implements IAuthenticationService {
         redisTemplate.opsForValue().set(redisKey, refreshToken);
 
         return AuthenticationResponse.builder().isAuthenticated(true)
-                .accessToken(accessToken).refreshToken(refreshToken).build();
+                .accessToken(accessToken).refreshToken(refreshToken)
+                .name(user.getName()).email(user.getEmail()).role(user.getRole().getName())
+                .build();
     }
 
     @Override
@@ -114,6 +116,9 @@ public class AuthenticationServiceImplement implements IAuthenticationService {
                 .isAuthenticated(true)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .name(user.getName())
+                .email(user.getEmail())
+                .role(user.getRole().getName())
                 .build();
     }
 
